@@ -1,4 +1,4 @@
-import java.util.Random;
+package Main;
 
 public abstract class Tile {
     int dirtiness;
@@ -10,4 +10,3 @@ public abstract class Tile {
 
     public abstract void cleanTile();
 }
-

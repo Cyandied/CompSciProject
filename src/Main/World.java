@@ -1,3 +1,7 @@
+package Main;
+
+import Tiles.Floor;
+
 import java.util.Random;
 
 // different views

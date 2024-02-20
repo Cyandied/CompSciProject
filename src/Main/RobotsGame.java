@@ -1,16 +1,16 @@
-package src;
+package Main;
 
 import java.util.Random;
 import java.util.Scanner;
 
 public class RobotsGame {
-    private src.World world;
+    private World world;
     private Robot robot;
     private Scanner scanner;
 
     public RobotsGame(int width, int height) {
-        this.world = new src.World(width, height);
-        this.robot = new Robot("Robot1", 1, world, 0, 0);
+        this.world = new World(width, height);
+        this.robot = new Robot("Robot1", "1", world, 0, 0);
         this.scanner = new Scanner(System.in);
     }
 
