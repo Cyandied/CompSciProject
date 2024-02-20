@@ -1,13 +1,13 @@
-package src;
+import java.util.Random;
 
 public abstract class Tile {
+    int dirtiness;
+    // Determines if the tile is free of obstacles.
     public abstract boolean isClear();
+
+    // Returns the dirtiness level or indicates an obstacle/wall.
+    public abstract int getDirtinessLevel();
+
+    public abstract void cleanTile();
 }
 
-// Floor should be in a different file
-class Floor extends Tile {
-    @Override
-    public boolean isClear() {
-        return true;
-    }
-}
