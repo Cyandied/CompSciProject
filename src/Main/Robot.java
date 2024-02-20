@@ -18,6 +18,7 @@ public class Robot {
     }
 
     // 4 methods for movements
+    //Methods will throw an error if users try to move out of bounds, since we will try to get a tile that does not exist
     public void goLeft() {
         Tile tile = world.getTile(x - 1, y);
         if (tile != null && tile.isClear()) {
@@ -58,6 +59,7 @@ public class Robot {
         Tile tile = world.getTile(newX, newY);
         if (tile == null) {
             return -1; // Wall or outside of bounds
+            //We need to make a distinction between Wall and Obstacle
         }
         return tile.getDirtinessLevel();
     }
@@ -66,6 +68,7 @@ public class Robot {
     public void clean() {
         Tile tile = world.getTile(x, y);
         if (tile != null && tile.isClear()) { // Check if it's a clear tile
+            //While it is nice to have fail-safes, the robot cannot ever be on a not_clear or a null tile
             tile.cleanTile();
         }
     }

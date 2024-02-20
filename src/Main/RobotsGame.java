@@ -44,6 +44,7 @@ public class RobotsGame {
      * but it's really similar to sense method in robot so we might have to change one of them and it probably should be
      * in the robot class
      *
+     * A method like this shouldn't exist, if (can move) is something the users should figure out based on sensor data
      */
 
     private boolean canMove(int x, int y) {

@@ -16,6 +16,9 @@ public class World {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 // Directly create Floor instances, which internally assign a random state
+
+                //Needs to be scalable for different kinds of tiles
+                //Needs to have some sort of validation of the map
                 tiles[i][j] = new Floor();
             }
         }
@@ -38,6 +41,7 @@ public class World {
     }
 
     // Checks if a given position is within the world bounds
+    //This method should return a tile type of wall and should be called by the robots sensor
     public boolean isWithinBounds(int x, int y) {
         return x >= 0 && y >= 0 && x < width && y < height;
     }
