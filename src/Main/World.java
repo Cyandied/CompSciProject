@@ -1,6 +1,8 @@
 package Main;
 
 import Tiles.Floor;
+import Tiles.Obstacle;
+import Tiles.Wall;
 
 import java.util.Random;
 
@@ -9,6 +11,8 @@ public class World {
     private Tile[][] tiles; // Grid of tiles (map)
     private int width;
     private int height;
+
+    private double obsacleCoverage = 0.2; //How much (approx) of the room is covered by obstacles
     private Random random = new Random();
 
     // Initializes the tiles with default values
@@ -16,10 +20,13 @@ public class World {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 // Directly create Floor instances, which internally assign a random state
-
-                //Needs to be scalable for different kinds of tiles
-                //Needs to have some sort of validation of the map
-                tiles[i][j] = new Floor();
+                double randomNum = random.nextDouble();
+                if(randomNum < obsacleCoverage) {
+                    tiles[i][j] = new Obstacle();
+                }
+                else {
+                    tiles[i][j] = new Floor();
+                }
             }
         }
     }
@@ -37,7 +44,7 @@ public class World {
         if (isWithinBounds(x, y)) {
             return tiles[x][y];
         }
-        return null; // Return null if the requested tile is out of bounds
+        return new Wall(); // Return a wall if the requested tile is out of bounds
     }
 
     // Checks if a given position is within the world bounds

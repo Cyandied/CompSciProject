@@ -87,7 +87,5 @@ public class RobotsGame {
                     break;
             }
         }
-        // the robot cleans the tile it's in
-        robot.clean();
     }
 }

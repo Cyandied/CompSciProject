@@ -20,30 +20,29 @@ public class Robot {
     // 4 methods for movements
     //Methods will throw an error if users try to move out of bounds, since we will try to get a tile that does not exist
     public void goLeft() {
-        Tile tile = world.getTile(x - 1, y);
-        if (tile != null && tile.isClear()) {
-            x--;
-        }
+        move(-1,0);
     }
 
     public void goRight() {
-        Tile tile = world.getTile(x + 1, y);
-        if (tile != null && tile.isClear()) {
-            x++;
-        }
+        move(1,0);
     }
 
     public void goUp() {
-        Tile tile = world.getTile(x, y - 1);
-        if (tile != null && tile.isClear()) {
-            y--;
-        }
+        move(0,-1);
     }
 
     public void goDown() {
-        Tile tile = world.getTile(x, y + 1);
-        if (tile != null && tile.isClear()) {
-            y++;
+        move(0,1);
+    }
+
+    private void move(int xMod, int yMod){
+        clean();
+        int newX = x + xMod;
+        int newY = y + yMod;
+        Tile tile = world.getTile(newX,newY);
+        if (world.isWithinBounds(newX,newY) && tile.isClear()) {
+            this.x += xMod;
+            this.y += yMod;
         }
     }
 
