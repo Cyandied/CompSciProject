@@ -56,10 +56,13 @@ public class RobotsGame {
         Direction[] directions = Direction.values();
         Random random = new Random();
         Direction direction = directions[random.nextInt(directions.length)];
+        //Senses to see if it is a valid direction, if not, it randomly chooses another one
         while(robot.sense(direction) < 0){
             direction  = directions[random.nextInt(directions.length)];
         }
 
+        //Switch statement could be implemented into the robot movement method which can then just take a
+        //Direction enum, robot.move(Direction)
         switch (direction) {
             case UP:
                     robot.goUp();
