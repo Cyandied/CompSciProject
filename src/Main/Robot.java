@@ -40,7 +40,7 @@ public class Robot {
         int newX = x + xMod;
         int newY = y + yMod;
         Tile tile = world.getTile(newX,newY);
-        if (world.isWithinBounds(newX,newY) && tile.isClear()) {
+        if (tile.isClear()) {
             this.x += xMod;
             this.y += yMod;
         }
@@ -56,9 +56,8 @@ public class Robot {
             case DOWN: newY++; break;
         }
         Tile tile = world.getTile(newX, newY);
-        if (tile == null) {
-            return -1; // Wall or outside of bounds
-            //We need to make a distinction between Wall and Obstacle
+        if (!tile.isClear()) {
+            return tile.getType(); // Wall -2 or Obstacle -1 (for now)
         }
         return tile.getDirtinessLevel();
     }

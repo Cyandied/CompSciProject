@@ -47,45 +47,32 @@ public class RobotsGame {
      * A method like this shouldn't exist, if (can move) is something the users should figure out based on sensor data
      */
 
-    private boolean canMove(int x, int y) {
-        return world.isWithinBounds(x, y) && world.getTile(x, y).isClear();
-    }
+//    private boolean canMove(int x, int y) {
+//        return world.isWithinBounds(x, y) && world.getTile(x, y).isClear();
+//    }
 
-    // Method to Move the robot in a random direction
+    // Method to Move the robot in a random valid direction
     private void moveRobotRandomly() {
         Direction[] directions = Direction.values();
-        boolean moved = false;
         Random random = new Random();
-
-        while (!moved) {
-            Direction direction = directions[random.nextInt(directions.length)];
-
-            switch (direction) {
-                case UP:
-                    if (canMove(robot.getX(), robot.getY() - 1)) {
-                        robot.goUp();
-                        moved = true;
-                    }
-                    break;
-                case DOWN:
-                    if (canMove(robot.getX(), robot.getY() + 1)) {
-                        robot.goDown();
-                        moved = true;
-                    }
-                    break;
-                case LEFT:
-                    if (canMove(robot.getX() - 1, robot.getY())) {
-                        robot.goLeft();
-                        moved = true;
-                    }
-                    break;
-                case RIGHT:
-                    if (canMove(robot.getX() + 1, robot.getY())) {
-                        robot.goRight();
-                        moved = true;
-                    }
-                    break;
-            }
+        Direction direction = directions[random.nextInt(directions.length)];
+        while(robot.sense(direction) < 0){
+            direction  = directions[random.nextInt(directions.length)];
         }
+
+        switch (direction) {
+            case UP:
+                    robot.goUp();
+                break;
+            case DOWN:
+                    robot.goDown();
+                break;
+            case LEFT:
+                    robot.goLeft();
+                break;
+            case RIGHT:
+                    robot.goRight();
+                break;
+            }
     }
 }
