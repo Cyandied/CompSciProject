@@ -63,6 +63,7 @@ public class Robot {
     }
 
     // Robot cleaning method
+    //Should be explicitly called by the user?
     public void clean() {
         Tile tile = world.getTile(x, y);
         if (tile != null && tile.isClear()) { // Check if it's a clear tile
