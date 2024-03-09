@@ -33,62 +33,6 @@ public class RobotsGameA {
         displayGameState();
     }
 
-    public void startGameLoopTimed() {
-        displayGameState();
-        double timePassed = 0;
-        double totalTimePassed = 0;
-        double prevTime = LocalTime.now().getSecond();
-        boolean continueGame = true;
-        while (continueGame) {
-            double newTime = LocalTime.now().getSecond();
-            timePassed += newTime - prevTime;
-            prevTime = newTime;
-            if(timePassed >= 5){
-                moveRobotRandomly();
-                playArea.draw();
-                displayGameState();
-                totalTimePassed += timePassed;
-                timePassed = 0;
-            }
-            if(totalTimePassed >= 30){
-                continueGame = false;
-            }
-            // game logic updates here
-
-        }
-    }
-
-    // Game loop
-    public void startGameLoop() {
-        boolean gameRunning = true;
-        while (gameRunning) {
-            displayGameState();
-            System.out.println("Enter 'exit' to quit or press enter to continue...");
-
-            String userInput = scanner.nextLine();
-            if ("exit".equals(userInput)) {
-                gameRunning = false; // Exit the loop and end the game
-            }
-
-            // game logic updates here
-            moveRobotRandomly();
-        }
-        scanner.close();
-        System.out.println("Game exited.");
-    }
-
-
-    /** Method that checks if the position is within bounds and not an obstacle,
-     * but it's really similar to sense method in robot so we might have to change one of them and it probably should be
-     * in the robot class
-     *
-     * A method like this shouldn't exist, if (can move) is something the users should figure out based on sensor data
-     */
-
-//    private boolean canMove(int x, int y) {
-//        return world.isWithinBounds(x, y) && world.getTile(x, y).isClear();
-//    }
-
     // Method to Move the robot in a random valid direction
     private void moveRobotRandomly() {
         Direction[] directions = Direction.values();

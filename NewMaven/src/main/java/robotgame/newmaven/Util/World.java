@@ -47,6 +47,16 @@ public class World {
         return new Wall(); // Return a wall if the requested tile is out of bounds
     }
 
+    public int getWorldDirtyness(){
+        int worldDirtyness = 0;
+        for(Tile[] tileRow : tiles){
+            for(Tile tile : tileRow){
+                worldDirtyness += tile.getDirtinessLevel();
+            }
+        }
+        return worldDirtyness;
+    }
+
     // Checks if a given position is within the world bounds
     //This method should return a tile type of wall and should be called by the robots sensor
     public boolean isWithinBounds(int x, int y) {
