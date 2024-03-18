@@ -7,6 +7,8 @@ public class Robot {
     World world;
     int x;
     int y;
+
+    int pointsCollected;
     // direction (optional)
 
     public Robot(String name, String id, World world, int x, int y) {
@@ -15,6 +17,7 @@ public class Robot {
         this.world = world;
         this.x = x;
         this.y = y;
+        this.pointsCollected = 0;
     }
 
     // 4 methods for movements
@@ -68,8 +71,21 @@ public class Robot {
         Tile tile = world.getTile(x, y);
         if (tile != null && tile.isClear()) { // Check if it's a clear tile
             //While it is nice to have fail-safes, the robot cannot ever be on a not_clear or a null tile
+            addPoints(tile);
             tile.cleanTile();
         }
+    }
+
+    void addPoints(Tile tile){
+        pointsCollected += tile.getDirtinessLevel();
+    }
+
+    void addPoints(int toAdd){
+        pointsCollected += toAdd;
+    }
+
+    void deductPoints(int toRemove){
+        pointsCollected -= toRemove;
     }
 
     // Getters and Setters
@@ -83,4 +99,7 @@ public class Robot {
     public void setX(int x) { this.x = x; }
     public int getY() { return y; }
     public void setY(int y) { this.y = y; }
+    public int getPointsCollected(){
+        return pointsCollected;
+    }
 }
