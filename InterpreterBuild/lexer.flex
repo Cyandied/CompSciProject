@@ -73,18 +73,18 @@ variable_name     = [A-Za-z_][A-Za-z_0-9]*
 	"AND"			{return symbol(sym.AND);}
 	"OR"			{return symbol(sym.OR);}
 
-/* If equivilant, structured like: if (logic) then {program;} else if (logic) then {program;} else {program;} */
+/* If equivalent, structured like: if (logic) then {program;} else if (logic) then {program;} else {program;} */
 	"if"			{return symbol(sym.IF);}
 	"else"			{return symbol(sym.ELSE);}
 	"then"			{return symbol(sym.THEN);}
 
-/* Switch equivilant, structured like: switch (value) { (value 1) then {program;} (value 2) then {program;} } */
+/* Switch equivalent, structured like: switch (value) { (value 1) then {program;} (value 2) then {program;} } */
 	"switch"		{return symbol(sym.SWITCH);}
 
-/* While loop equivilant, structured like: think (logic) {program;} */
+/* While loop equivalent, structured like: think (logic) {program;} */
 	"think"			{return symbol(sym.THINK);}
 
-/* For loop equivilant, structured like: count (iterator EQL value FIND logic ELSE INC/DEC){program;} */
+/* For loop equivalent, structured like: count (iterator EQL value FIND logic ELSE INC/DEC){program;} */
 	"count"			{return symbol(sym.COUNT);}
 	"FIND"			{return symbol(sym.FIND);}
 	"INC"			{return symbol(sym.INC);}
