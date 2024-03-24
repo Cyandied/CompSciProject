@@ -1,0 +1,48 @@
+import java_cup.runtime.*;
+
+parser code {:
+  public void report_error(String message, Object info) {
+    System.err.println(message);
+  }
+
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    System.exit(1);
+  }
+:};
+
+terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
+terminal Integer   NUMBER, ID;
+
+non terminal Object     expr_list, expr_part;
+non terminal Integer    expr;
+
+/* The precedence defined here would look something like this where the
+   lower line always will have higher precedence than the line before it.
+*/
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+
+expr_list ::= expr_list expr_part
+            | expr_part
+            ;
+
+expr_part ::= expr:e {: System.out.println(" = " + e); :} SEMI 
+            ;
+
+expr      ::= expr:e1 PLUS expr:e2
+                 {: RESULT = Integer.valueOf(e1.intValue() + e2.intValue()); :}
+            | expr:e1 MINUS expr:e2
+                 {: RESULT = Integer.valueOf(e1.intValue() - e2.intValue()); :}
+            | expr:e1 TIMES expr:e2
+                 {: RESULT = Integer.valueOf(e1.intValue() * e2.intValue()); :}
+            | expr:e1 DIVIDE expr:e2
+                 {: RESULT = Integer.valueOf(e1.intValue() / e2.intValue()); :}
+            | LPAREN expr:e RPAREN
+                 {: RESULT = e; :}
+            | NUMBER:n
+                 {: RESULT = n; :}
+            | ID:i
+                 {: RESULT = i; :}
+            ;
+
