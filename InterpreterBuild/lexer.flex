@@ -23,29 +23,38 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace     = {LineTerminator} | [ \t\f]
 dec_int    = 0 | [1-9][0-9]*
 dec_bool = "FALSE" | "TRUE"
+
 dec_direction = "LEFT" | "RIGHT" | "UP" | "DOWN" | "CURRENT"
 dec_dirtiness = "CLEAN" | "MESSY" | "DIRTY" | "FILTHY" | "DISGUSTING"
 dec_obsacle = "WALL" | "OBSTACLE"
 dec_location = "CURRENT_LOC" | "START_LOC"
 
-variable_name     = [A-Za-z_][A-Za-z_0-9]*
+variable_routine_name = [A-Za-z_][A-Za-z_0-9]*
 
 %%
 
 <YYINITIAL> {
 
 /* Symbols */
+
+    "+"                { System.out.print(" + "); return symbol(sym.PLUS); }
+    "-"                { System.out.print(" - "); return symbol(sym.MINUS); }
+    "*"                { System.out.print(" * "); return symbol(sym.TIMES); }
+    "/"                { System.out.print(" / "); return symbol(sym.DIVIDE); }
+
 	";"				{return symbol(sym.SEMI);}
 	"("				{return symbol(sym.LPARAN);}
 	")"				{return symbol(sym.RPARAN);}
 	"{"				{return symbol(sym.LBRAC);}
 	"}"				{return symbol(sym.RBRAC);}
 	","				{return symbol(sym.COMMA);}
-	
+
+	"end"			{return symbol(sym.END);}
+	"about"			{return symbol(sym.ABOUT);}	
+
 /* Variable declaration, structured like: store value as name; */
 	"store"			{return symbol(sym.STORE);}
 	"as"			{return symbol(sym.AS);}
-	{variable_name}	{return symbol(sym.VAR, yytext());}
 
 /* Method declaration, structured like: new routine( args ) {program; return value;}; */
 	"new"			{return symbol(sym.NEW);}
@@ -55,15 +64,6 @@ variable_name     = [A-Za-z_][A-Za-z_0-9]*
 /* Boolean and int */	
 	{dec_bool}		{return symbol(sym.BOOL, Boolean.valueOf(yytext()));}
 	{dec_int}		{return symbol(sym.NUMBER, Integer.valueOf(yytext())); }
-
-/* Preset variables */
-	{dec_direction}	{return symbol(sym.DIRECTION, yytext());}
-	{dec_dirtiness}	{return symbol(sym.DIRTINESS, yytext());}
-	{dec_obstacle}	{return symbol(sym.OBSTACLE, yytext());}
-	{dec_location}	{return symbol(sym.LOCATION, yytext());}
-
-/* Preset variable step, returns the step the program is on */
-	"STEP"			{return symbol(sym.STEP);}
 
 /* Logic parts */
 	"GRT"			{return symbol(sym.GRT);}
@@ -90,11 +90,8 @@ variable_name     = [A-Za-z_][A-Za-z_0-9]*
 	"INC"			{return symbol(sym.INC);}
 	"DEC"			{return symbol(sym.DEC);}
 
-/* Preset functions */
-	"move"			{return symbol(sym.MOVE);}
-	"clean"			{return symbol(sym.CLEAN);}
-	"radar"			{return symbol(sym.RADAR);}
-	"random"		{return symbol(sym.RANDOM);}
+/* to not confuse any tokens as variables */
+	{variable_routine_name}	{return symbol(sym.VAR, yytext());}
 
 /* Whitespace */
 	{WhiteSpace}	{/* just skip what was found, do nothing */}

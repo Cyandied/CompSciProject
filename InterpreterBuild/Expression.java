@@ -1,10 +1,10 @@
-public abstract class Expression<ReturnType> {
+public abstract class Expression {
     
-    public abstract ReturnType evaluate();
+    public abstract Object evaluate();
 
 }
 
-class Number extends Expression<Integer> {
+class Number extends Expression {
 
     Integer value;
 
@@ -18,7 +18,7 @@ class Number extends Expression<Integer> {
 
 }
 
-class Bool extends Expression<Boolean> {
+class Bool extends Expression {
 
     Boolean value;
 
@@ -32,3 +32,18 @@ class Bool extends Expression<Boolean> {
 
 }
 
+class Addition extends Expression {
+
+    Expression expr1;
+    Expression expr2;
+
+    public Addition(Expression expr1, Expression expr2){
+        this.expr1 = expr1;
+        this.expr2 = expr2;
+    }
+
+    public Integer evaluate(){
+        return expr1.evaluate() + expr2.evaluate();
+    }
+
+}

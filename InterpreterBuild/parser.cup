@@ -11,11 +11,15 @@ parser code {:
   }
 :};
 
-terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
-terminal Integer   NUMBER, ID;
+terminal            STORE, AS, SEMI, IF, THEN, ELSE, END, THINK, ABOUT, PLUS, MINUS, TIMES, DIVIDE, LPAREN, RPAREN;
+terminal Integer    NUMBER;
+terminal String     VAR;
+terminal Boolean    BOOL;
 
-non terminal Object     expr_list, expr_part;
-non terminal Integer    expr;
+non terminal Expression            expr;
+non terminal ArrayList<Expression> expr_list;
+non terminal Statement             stm;
+non terminal ArrayList<Statement>  stm_list;
 
 /* The precedence defined here would look something like this where the
    lower line always will have higher precedence than the line before it.
@@ -23,15 +27,32 @@ non terminal Integer    expr;
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 
-expr_list ::= expr_list expr_part
+/*expr_list ::= expr_list expr_part
             | expr_part
-            ;
+            ; */
 
-expr_part ::= expr:e {: System.out.println(" = " + e); :} SEMI 
-            ;
+stm_list  ::= stm
+               {:   ArrayList<Statement> lonely_statement = new ArrayList<Statement>();
+                    lonely_statement.add(stm);
+                    RESULT = lonely_statement;
+                    :}
+          |    stm_list stm
+               {:   stm_list.add(stm);
+                    RESULT = stm_list;
+                    :}
+          ;
+
+stm       ::= STORE expr AS VAR SEMI
+                    {:  :}
+          |    IF expr THEN stm_list ELSE stm_list END
+                    {:  :}
+          |    THINK expr ABOUT stm_list END
+                    {:  :}
+          ;   
+
 
 expr      ::= expr:e1 PLUS expr:e2
-                 {: RESULT = Integer.valueOf(e1.intValue() + e2.intValue()); :}
+                 {: RESULT = new Addition(e1, e2); :}
             | expr:e1 MINUS expr:e2
                  {: RESULT = Integer.valueOf(e1.intValue() - e2.intValue()); :}
             | expr:e1 TIMES expr:e2
@@ -41,8 +62,8 @@ expr      ::= expr:e1 PLUS expr:e2
             | LPAREN expr:e RPAREN
                  {: RESULT = e; :}
             | NUMBER:n
-                 {: RESULT = n; :}
-            | ID:i
+                 {: RESULT = new Number(n); :}
+            | VAR:i
                  {: RESULT = i; :}
             ;
 
