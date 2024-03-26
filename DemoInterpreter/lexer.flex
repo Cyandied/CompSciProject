@@ -24,13 +24,19 @@ WhiteSpace     = {LineTerminator} | [ \t\f]
 dec_int    = 0 | [1-9][0-9]*
 dec_bool = "FALSE" | "TRUE"
 
-variable_routine_name = [A-Za-z_][A-Za-z_0-9]*
+variable_name = [A-Za-z_][A-Za-z_0-9]*
 
 %%
 
 <YYINITIAL> {
 
 /* Symbols */
+
+    "+"                { System.out.print(" + "); return symbol(sym.PLUS); }
+    "-"                { System.out.print(" - "); return symbol(sym.MINUS); }
+    "*"                { System.out.print(" * "); return symbol(sym.TIMES); }
+    "/"                { System.out.print(" / "); return symbol(sym.DIVIDE); }
+
 	";"				{return symbol(sym.SEMI);}
 	"("				{return symbol(sym.LPARAN);}
 	")"				{return symbol(sym.RPARAN);}
@@ -39,16 +45,10 @@ variable_routine_name = [A-Za-z_][A-Za-z_0-9]*
 	","				{return symbol(sym.COMMA);}
 
 	"end"			{return symbol(sym.END);}
-	"about"			{return symbol(sym.ABOUT);}	
-
+		
 /* Variable declaration, structured like: store value as name; */
 	"store"			{return symbol(sym.STORE);}
-	"as"			{return symbol(sym.AS);}
-
-/* Method declaration, structured like: new routine( args ) {program; return value;}; */
-	"new"			{return symbol(sym.NEW);}
-	"routine"		{return symbol(sym.ROUTINE);}
-	"return"		{return symbol(sym.RETURN);}			
+	"as"			{return symbol(sym.AS);}		
 
 /* Boolean and int */	
 	{dec_bool}		{return symbol(sym.BOOL, Boolean.valueOf(yytext()));}
@@ -67,20 +67,12 @@ variable_routine_name = [A-Za-z_][A-Za-z_0-9]*
 	"else"			{return symbol(sym.ELSE);}
 	"then"			{return symbol(sym.THEN);}
 
-/* Switch equivalent, structured like: switch (value) { (value 1) then {program;} (value 2) then {program;} } */
-	"switch"		{return symbol(sym.SWITCH);}
-
 /* While loop equivalent, structured like: think (logic) {program;} */
 	"think"			{return symbol(sym.THINK);}
-
-/* For loop equivalent, structured like: count (iterator EQL value FIND logic ELSE INC/DEC){program;} */
-	"count"			{return symbol(sym.COUNT);}
-	"FIND"			{return symbol(sym.FIND);}
-	"INC"			{return symbol(sym.INC);}
-	"DEC"			{return symbol(sym.DEC);}
+	"about"			{return symbol(sym.ABOUT);}
 
 /* to not confuse any tokens as variables */
-	{variable_routine_name}	{return symbol(sym.VAR, yytext());}
+	{variable_name}	{return symbol(sym.VAR, yytext());}
 
 /* Whitespace */
 	{WhiteSpace}	{/* just skip what was found, do nothing */}

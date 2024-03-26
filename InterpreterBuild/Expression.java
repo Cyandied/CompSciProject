@@ -1,6 +1,6 @@
 public abstract class Expression {
     
-    public abstract Object evaluate();
+    public abstract Integer evaluate();
 
 }
 
@@ -20,30 +20,19 @@ class Number extends Expression {
 
 class Bool extends Expression {
 
-    Boolean value;
+    Integer value;
 
     public Bool(Boolean value){
-        this.value = value;
-    }
-
-    public Boolean evaluate(){
-        return value;
-    }
-
-}
-
-class Addition extends Expression {
-
-    Expression expr1;
-    Expression expr2;
-
-    public Addition(Expression expr1, Expression expr2){
-        this.expr1 = expr1;
-        this.expr2 = expr2;
+        if(value){
+            this.value = 1;
+        }
+        else {
+            this.value = 0;
+        }
     }
 
     public Integer evaluate(){
-        return expr1.evaluate() + expr2.evaluate();
+        return value;
     }
 
 }
